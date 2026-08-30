@@ -7,7 +7,7 @@
 :root{--navy:#103b62;--blue:#1979b9;--ink:#18384f;--bg:#f5fbff;--line:#d6e8f2;--mint:#e5f8f1;--yellow:#fff4cf;--pink:#ffe8ef;--lav:#eee9ff;--white:#fff}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}
 header{height:66px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:8}
-.brand{font-size:21px;font-weight:850}.brand b{color:var(--blue)}.top{font-size:13px;color:#648093}
+.brand{font-size:21px;font-weight:850;cursor:pointer;user-select:none}.brand b{color:var(--blue)}.top{font-size:13px;color:#648093}
 .layout{display:grid;grid-template-columns:245px 1fr;min-height:calc(100vh - 66px)}aside{background:var(--navy);padding:18px 12px;color:#fff}
 .menu button{width:100%;border:0;background:transparent;color:#fff;text-align:left;padding:11px;border-radius:10px;margin:2px 0;cursor:pointer;font-size:14px}.menu button:hover,.menu .active{background:#20577f}
 main{padding:27px;max-width:1280px;width:100%}h1{font-size:31px;margin:0 0 7px}h2,h3{margin-top:0}.lead{color:#607d90;margin:0 0 21px}
@@ -20,11 +20,12 @@ main{padding:27px;max-width:1280px;width:100%}h1{font-size:31px;margin:0 0 7px}h
 .activity{border-left:5px solid var(--blue)}.session{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field label{display:block;font-weight:750;margin-bottom:6px}.field select,.field input,.field textarea{width:100%;padding:10px;border:1px solid #bfd4e2;border-radius:10px;background:#fff}.field textarea{min-height:80px}
 table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:9px;text-align:left;font-size:13px}.notice{margin-top:15px;background:var(--yellow);padding:14px;border-radius:13px}.hidden{display:none}
 .resource{min-height:150px}.check{display:flex;gap:8px;align-items:flex-start;margin:7px 0}.check input{margin-top:4px}
-@media print{aside,header,.no-print{display:none!important}.layout{display:block}main{padding:0;max-width:none}body{background:white}.panel,.card{break-inside:avoid;box-shadow:none}}
-@media(max-width:850px){.layout{grid-template-columns:1fr}aside{display:none}.grid,.grid2,.session,.route{grid-template-columns:1fr}main{padding:18px}}
+.mobile-home{display:none;margin:0 0 16px;background:var(--navy);color:#fff;border:0;border-radius:12px;padding:11px 14px;font-weight:800;cursor:pointer;width:100%}
+@media print{aside,header,.no-print,.mobile-home{display:none!important}.layout{display:block}main{padding:0;max-width:none}body{background:white}.panel,.card{break-inside:avoid;box-shadow:none}}
+@media(max-width:850px){.layout{grid-template-columns:1fr}aside{display:none}.grid,.grid2,.session,.route{grid-template-columns:1fr}main{padding:18px}.mobile-home{display:block}.top{font-size:12px;max-width:42%;text-align:right}.brand{font-size:19px}}
 </style></head>
 <body>
-<header><div class="brand">💬 Lenguaje en <b>Desarrollo</b> <span class="badge">Final</span></div><div class="top">Herramientas para Fonoaudiólogos Infantiles</div></header>
+<header><div class="brand" role="button" tabindex="0" aria-label="Volver al inicio" onclick="show('inicio')" onkeydown="if(event.key==='Enter'||event.key===' '){show('inicio')}">💬 Lenguaje en <b>Desarrollo</b> <span class="badge">Final</span></div><div class="top">Herramientas para Fonoaudiólogos Infantiles</div></header>
 <div class="layout"><aside><div class="menu">
 <button class="active" onclick="show('inicio',this)">🏠 Inicio</button>
 <button onclick="show('fonetico',this)">🗣️ Fonético-Fonológico</button>
@@ -38,7 +39,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <button onclick="show('legal',this)">⚖️ Términos y aviso</button>
 <button onclick="show('privacidad',this)">🔒 Privacidad</button>
 </div></aside><main>
-
 <section id="inicio">
 <h1>Intervención Fonoaudiológica Infantil</h1><p class="lead">Selecciona un área, define objetivos y construye actividades y sesiones adaptables.</p>
 <div class="grid">
@@ -51,7 +51,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 </div>
 <div class="notice"><b>Uso profesional y responsable:</b> esta plataforma es un apoyo para planificación e intervención. Los objetivos, la intensidad y la progresión deben ajustarse a la evaluación fonoaudiológica individual, al perfil lingüístico y al contexto comunicativo del niño.</div>
 </section>
-
 <section id="fonetico" class="hidden">
 <h1>Fonético-Fonológico</h1><p class="lead">Explora fonemas, estructuras y patrones de error.</p>
 <div class="tabs"><button class="on" onclick="subtab(this,'f-fonemas')">Fonemas</button><button onclick="subtab(this,'f-difonos')">Dífonos</button><button onclick="subtab(this,'f-procesos')">Procesos fonológicos</button><button onclick="subtab(this,'f-conciencia')">Conciencia fonológica</button></div>
@@ -70,7 +69,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <div id="f-conciencia" class="hidden"><div class="grid">
 <div class="card"><h3>👏 Sílabas</h3><p>Segmentar, contar, unir y manipular sílabas.</p></div><div class="card"><h3>🔊 Sonido inicial/final</h3><p>Identificar y comparar sonidos en palabras.</p></div><div class="card"><h3>🧱 Síntesis y análisis</h3><p>Unir sonidos y segmentar palabras según el nivel de desarrollo.</p></div></div></div>
 </section>
-
 <section id="semantica" class="hidden">
 <h1>Semántica</h1><p class="lead">Actividades desde vocabulario funcional hacia relaciones léxicas más complejas.</p>
 <div class="grid">
@@ -81,7 +79,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <div class="card"><span class="badge">Avanzado</span><h3>💡 Definiciones</h3><p>Construir definiciones usando categoría + atributos + función.</p></div>
 <div class="card"><span class="badge">Comprensión</span><h3>🧠 Vocabulario en contexto</h3><p>Inferir significado de palabras a partir de una frase o texto breve.</p></div>
 </div></section>
-
 <section id="morfosintaxis" class="hidden">
 <h1>Morfosintaxis</h1><p class="lead">Progresión flexible desde combinaciones simples hacia estructuras complejas.</p>
 <div class="grid">
@@ -92,7 +89,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <div class="card"><h3>⏰ Tiempo verbal</h3><p>Contrastar pasado, presente y futuro mediante secuencias y rutinas.</p></div>
 <div class="card"><h3>📏 Expansión</h3><p>Añadir adjetivos, adverbios y complementos sin perder concordancia.</p></div>
 </div></section>
-
 <section id="pragmatica" class="hidden">
 <h1>Pragmática</h1><p class="lead">Intervención funcional en interacción real y contextos significativos.</p>
 <div class="grid">
@@ -103,7 +99,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <div class="card"><h3>🧭 Contexto</h3><p>Ajustar lenguaje al interlocutor, situación y propósito comunicativo.</p></div>
 <div class="card"><h3>🏫 Generalización</h3><p>Practicar con pares, docentes, familia y distintos espacios de la escuela.</p></div>
 </div></section>
-
 <section id="narracion" class="hidden">
 <h1>Discurso y Narración</h1><p class="lead">Construcción progresiva de relatos comprensibles y organizados.</p>
 <div class="grid">
@@ -114,7 +109,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <div class="card"><h3>🏁 Consecuencia</h3><p>Relatar cómo terminó y qué cambió.</p></div>
 <div class="card"><h3>🎙️ Relato completo</h3><p>Integrar estructura narrativa, conectores, vocabulario y coherencia.</p></div>
 </div></section>
-
 <section id="sesion" class="hidden">
 <h1>Crear mi sesión</h1><p class="lead">Generador local de planificación. Puedes imprimir el resultado.</p>
 <div class="panel session">
@@ -128,7 +122,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <div class="actions no-print" style="margin-top:14px"><button class="primary" onclick="generate()">Generar sesión</button><button class="secondary" onclick="window.print()">Imprimir</button></div>
 <div id="plan" class="panel hidden"></div>
 </section>
-
 <section id="registro" class="hidden">
 <h1>Registro de avances</h1><p class="lead">Pauta transversal para seguimiento.</p>
 <div class="panel"><table><thead><tr><th>Indicador</th><th>Logrado</th><th>En desarrollo</th><th>Requiere apoyo</th></tr></thead><tbody>
@@ -138,7 +131,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <tr><td>Transfiere la habilidad a un contexto menos estructurado</td><td>☐</td><td>☐</td><td>☐</td></tr>
 </tbody></table><p class="small">Registrar además porcentaje o frecuencia cuando sea pertinente, tipo de claves utilizadas, errores predominantes y observaciones cualitativas.</p></div>
 </section>
-
 <section id="imprimibles" class="hidden">
 <h1>Imprimibles</h1><p class="lead">Plantillas listas para imprimir desde el navegador.</p>
 <div class="grid">
@@ -146,8 +138,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <div class="card resource"><h3>📈 Registro rápido</h3><p>☐ Logrado &nbsp; ☐ En desarrollo</p><p>☐ Requiere apoyo</p><p>Observación: ______________________</p><button class="secondary no-print" onclick="window.print()">Imprimir</button></div>
 <div class="card resource"><h3>🏠 Generalización hogar/aula</h3><p>Habilidad: _________________________</p><p>Contexto: _________________________</p><p>Ejemplo funcional: _________________</p><button class="secondary no-print" onclick="window.print()">Imprimir</button></div>
 </div></section>
-
-
 <section id="legal" class="hidden">
 <h1>Términos de uso y aviso profesional</h1>
 <p class="lead">Información general para el uso responsable de Lenguaje en Desarrollo.</p>
@@ -167,7 +157,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 </div>
 <div class="notice"><b>Importante:</b> este texto es una medida preventiva de información y uso responsable; no constituye asesoría jurídica ni elimina por sí solo todos los riesgos legales.</div>
 </section>
-
 <section id="privacidad" class="hidden">
 <h1>Política de privacidad</h1>
 <p class="lead">Versión inicial diseñada bajo el principio de minimización de datos.</p>
@@ -182,7 +171,6 @@ table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--li
 <p>Antes de incorporar cuentas, historiales de estudiantes, almacenamiento en línea, analítica identificable o intercambio de información, será necesario diseñar medidas de seguridad, consentimiento, control de acceso, retención y eliminación de datos acordes con la normativa chilena aplicable.</p>
 </div>
 </section>
-
 </main></div>
 <script>
 const phonemes={"/m/": ["m", "mano, mesa, mono, cama", "nasal bilabial"], "/p/": ["p", "pato, pelo, mapa, sopa", "oclusiva bilabial"], "/t/": ["t", "taza, tela, gato, moto", "oclusiva alveolar"], "/n/": ["n", "nido, nube, mano, luna", "nasal alveolar"], "/k/": ["k", "casa, cama, copa, cubo, queso", "oclusiva velar"], "/b/": ["b", "boca, vaso, nube, lobo", "oclusiva bilabial"], "/d/": ["d", "dado, dedo, nido, rueda", "oclusiva dental"], "/g/": ["g", "gato, goma, lago, amigo", "oclusiva velar"], "/f/": ["f", "foca, foto, café, sofá", "fricativa labiodental"], "/s/": ["s", "sapo, sopa, mesa, casa", "fricativa alveolar"], "/x/": ["j", "jugo, jabón, caja, ojo", "fricativa velar"], "/l/": ["l", "luna, lápiz, pala, pelo", "lateral alveolar"], "/ɾ/": ["r", "cara, pera, loro, arena", "vibrante simple"], "/r/": ["rr", "ratón, rosa, perro, carro", "vibrante múltiple"]}; let chosen='/k/';
@@ -193,7 +181,7 @@ const goals={
 'Pragmática':'Desarrollar habilidades conversacionales funcionales con distintos interlocutores.',
 'Discurso y Narración':'Organizar y relatar una secuencia con personajes, problema, acciones y consecuencia.'
 };
-function show(id,btn){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');scrollTo(0,0)}
+function show(id,btn){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');if(!btn){const buttons=[...document.querySelectorAll('.menu button')];const match=buttons.find(b=>(b.getAttribute('onclick')||'').includes("'"+id+"'"));if(match)match.classList.add('active')}scrollTo(0,0)}
 function subtab(btn,id){document.querySelectorAll('#fonetico .tabs button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');['f-fonemas','f-difonos','f-procesos','f-conciencia'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden')}
 function buildPhonemes(){let box=document.getElementById('phonemes');Object.keys(phonemes).forEach(p=>{let b=document.createElement('button');b.className='chip'+(p==chosen?' sel':'');b.textContent=p;b.onclick=()=>pick(b,p);box.appendChild(b)});detail()}
 function pick(btn,p){document.querySelectorAll('#phonemes .chip').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');chosen=p;document.getElementById('cur').textContent=p;detail()}
@@ -201,5 +189,7 @@ function detail(){let d=phonemes[chosen];document.getElementById('phonemeDetail'
 function sendPhoneme(){document.getElementById('area').value='Fonético-Fonológico';document.getElementById('goal').value='Producir y generalizar el fonema '+chosen+' en contextos progresivos.';show('sesion')}
 function areaGoal(){document.getElementById('goal').value=goals[document.getElementById('area').value]}
 function generate(){let a=document.getElementById('area').value,n=document.getElementById('nivel').value,d=document.getElementById('dur').value,s=document.getElementById('support').value,g=document.getElementById('goal').value,o=document.getElementById('obs').value||'Sin observaciones adicionales.';let p=document.getElementById('plan');p.classList.remove('hidden');p.innerHTML=`<h2>Plan de sesión · ${d}</h2><p><b>Nivel:</b> ${n} &nbsp; | &nbsp; <b>Área:</b> ${a} &nbsp; | &nbsp; <b>Apoyo:</b> ${s}</p><p><b>Objetivo:</b> ${g}</p><p><b>Consideraciones:</b> ${o}</p><hr><h3>1. Inicio · 5 min</h3><p>Anticipar la sesión, activar conocimientos previos y presentar el objetivo con lenguaje claro y apoyo visual cuando sea útil.</p><h3>2. Actividad central · 15–20 min</h3><p>Realizar práctica graduada con oportunidades frecuentes de respuesta, modelado y retroalimentación específica. Ajustar número de estímulos y complejidad al desempeño.</p><h3>3. Aplicación funcional · 10 min</h3><p>Trasladar la habilidad a juego, descripción, conversación, lectura o narración según el área y nivel del estudiante.</p><h3>4. Generalización y cierre · 5 min</h3><p>Comprobar la habilidad en una tarea menos estructurada, reforzar estrategias útiles y acordar una oportunidad breve de práctica en aula u hogar.</p><h3>Registro</h3><p>☐ Logrado &nbsp; ☐ En desarrollo &nbsp; ☐ Requiere apoyo</p><p>Precisión/frecuencia: __________ &nbsp; Tipo de apoyo: __________</p><div class="notice"><b>Decisión clínica:</b> si la respuesta es inestable, simplificar la unidad o aumentar apoyos; si es consistente, aumentar variabilidad, complejidad y contextos de generalización.</div>`}
+function addMobileHomeButtons(){document.querySelectorAll('main>section:not(#inicio)').forEach(section=>{const b=document.createElement('button');b.className='mobile-home no-print';b.type='button';b.innerHTML='🏠 Volver al inicio';b.onclick=()=>show('inicio');section.insertBefore(b,section.firstChild)})}
+addMobileHomeButtons();
 buildPhonemes();
 </script></body></html>
