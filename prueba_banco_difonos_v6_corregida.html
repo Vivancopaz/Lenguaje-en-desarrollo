@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lenguaje en Desarrollo · Plataforma Fonoaudiológica</title>
+<style>
+:root{--navy:#103b62;--blue:#1979b9;--ink:#18384f;--bg:#f5fbff;--line:#d6e8f2;--mint:#e5f8f1;--yellow:#fff4cf;--pink:#ffe8ef;--lav:#eee9ff;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}
+header{height:66px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:8}
+.brand{font-size:21px;font-weight:850;cursor:pointer;user-select:none}.brand b{color:var(--blue)}.top{font-size:13px;color:#648093}
+.layout{display:grid;grid-template-columns:245px 1fr;min-height:calc(100vh - 66px)}aside{background:var(--navy);padding:18px 12px;color:#fff}
+.menu button{width:100%;border:0;background:transparent;color:#fff;text-align:left;padding:11px;border-radius:10px;margin:2px 0;cursor:pointer;font-size:14px}.menu button:hover,.menu .active{background:#20577f}
+main{padding:27px;max-width:1280px;width:100%}h1{font-size:31px;margin:0 0 7px}h2,h3{margin-top:0}.lead{color:#607d90;margin:0 0 21px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card,.panel{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px}.card.click{cursor:pointer}.card.click:hover{box-shadow:0 7px 20px #17324a18;transform:translateY(-1px)}
+.badge{display:inline-block;background:var(--mint);padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}.warn{background:var(--yellow)}.pink{background:var(--pink)}.lav{background:var(--lav)}
+.tabs,.chips,.actions{display:flex;gap:8px;flex-wrap:wrap}.tabs{margin:15px 0}.tabs button,.chip,.primary,.secondary{border:0;border-radius:10px;padding:10px 13px;font-weight:750;cursor:pointer}.tabs button,.secondary{background:#e8f2f8;color:var(--ink)}.tabs .on,.primary{background:var(--blue);color:#fff}
+.chip{background:#fff;border:1px solid var(--line)}.chip.sel{background:var(--navy);color:#fff}.panel{margin-top:14px}.small{font-size:13px;color:#607d90}
+.route{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:13px 0}.step{background:#eef8fd;border-radius:11px;padding:11px;text-align:center;font-size:12px}
+.activity{border-left:5px solid var(--blue)}.session{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field label{display:block;font-weight:750;margin-bottom:6px}.field select,.field input,.field textarea{width:100%;padding:10px;border:1px solid #bfd4e2;border-radius:10px;background:#fff}.field textarea{min-height:80px}
+table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:9px;text-align:left;font-size:13px}.notice{margin-top:15px;background:var(--yellow);padding:14px;border-radius:13px}.hidden{display:none}
+.resource{min-height:150px}.check{display:flex;gap:8px;align-items:flex-start;margin:7px 0}.check input{margin-top:4px}
+.mobile-home{display:none;margin:0 0 16px;background:var(--navy);color:#fff;border:0;border-radius:12px;padding:11px 14px;font-weight:800;cursor:pointer;width:100%}
+.activity-bank{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.activity-item{background:#f9fcfe;border:1px solid var(--line);border-radius:14px;padding:14px}
+.activity-item h4{margin:0 0 7px;font-size:15px}.activity-item p{margin:5px 0;font-size:13px;line-height:1.45}
+.activity-item .meta{color:#607d90;font-size:12px}.criteria{background:var(--mint);border-radius:9px;padding:8px;margin-top:8px!important}
+@media(max-width:850px){.activity-bank{grid-template-columns:1fr}}
+@media print{aside,header,.no-print,.mobile-home{display:none!important}.layout{display:block}main{padding:0;max-width:none}body{background:white}.panel,.card{break-inside:avoid;box-shadow:none}}
+@media(max-width:850px){.layout{grid-template-columns:1fr}aside{display:none}.grid,.grid2,.session,.route{grid-template-columns:1fr}main{padding:18px}.mobile-home{display:block}.top{font-size:12px;max-width:42%;text-align:right}.brand{font-size:19px}}
+</style></head>
+<body>
+<header><div class="brand" role="button" tabindex="0" aria-label="Volver al inicio" onclick="show('inicio')" onkeydown="if(event.key==='Enter'||event.key===' '){show('inicio')}">💬 Lenguaje en <b>Desarrollo</b> <span class="badge">Banco v6</span></div><div class="top">Herramientas para Fonoaudiólogos Infantiles</div></header>
+<div class="layout"><aside><div class="menu">
+<button class="active" onclick="show('inicio',this)">🏠 Inicio</button>
+<button onclick="show('fonetico',this)">🗣️ Fonético-Fonológico</button>
+<button onclick="show('bancoFF',this)">🧰 Banco Fonético-Fonológico</button>
+<button onclick="show('semantica',this)">🧠 Semántica</button>
+<button onclick="show('morfosintaxis',this)">🧩 Morfosintaxis</button>
+<button onclick="show('pragmatica',this)">🤝 Pragmática</button>
+<button onclick="show('narracion',this)">📖 Discurso y Narración</button>
+<button onclick="show('sesion',this)">✨ Crear mi sesión</button>
+<button onclick="show('registro',this)">📈 Registro de avances</button>
+<button onclick="show('imprimibles',this)">🖨️ Imprimibles</button>
+<button onclick="show('legal',this)">⚖️ Términos y aviso</button>
+<button onclick="show('privacidad',this)">🔒 Privacidad</button>
+</div></aside><main>
+<section id="inicio">
+<h1>Intervención Fonoaudiológica Infantil</h1><p class="lead">Selecciona un área, define objetivos y construye actividades y sesiones adaptables.</p>
+<div class="grid">
+<div class="card click" onclick="show('fonetico')"><span class="badge">Completo</span><h3>🗣️ Fonético-Fonológico</h3><p>Fonemas, dífonos, procesos fonológicos, conciencia fonológica y generalización.</p></div>
+<div class="card click" onclick="show('bancoFF')"><span class="badge">Banco ampliado</span><h3>🧰 Banco Fonético-Fonológico</h3><p>Fonemas, dífonos consonánticos, trabantes/codas, procesos fonológicos y conciencia fonológica.</p></div>
+<div class="card click" onclick="show('semantica')"><span class="badge">Completo</span><h3>🧠 Semántica</h3><p>Vocabulario, categorías, atributos, relaciones y comprensión léxica.</p></div>
+<div class="card click" onclick="show('morfosintaxis')"><span class="badge">Completo</span><h3>🧩 Morfosintaxis</h3><p>Expansión de oraciones, concordancia, nexos, tiempos verbales y estructuras complejas.</p></div>
+<div class="card click" onclick="show('pragmatica')"><span class="badge">Completo</span><h3>🤝 Pragmática</h3><p>Intención comunicativa, turnos, conversación, inferencias sociales y reparación.</p></div>
+<div class="card click" onclick="show('narracion')"><span class="badge">Completo</span><h3>📖 Discurso y Narración</h3><p>Secuencias, personajes, problema, acciones, consecuencias y relato coherente.</p></div>
+<div class="card click" onclick="show('sesion')"><span class="badge pink">Generador</span><h3>✨ Crear mi sesión</h3><p>Configura nivel, área, objetivo, duración y apoyos para generar una planificación.</p></div>
+</div>
+<div class="notice"><b>Uso profesional y responsable:</b> esta plataforma es un apoyo para planificación e intervención. Los objetivos, la intensidad y la progresión deben ajustarse a la evaluación fonoaudiológica individual, al perfil lingüístico y al contexto comunicativo del niño.</div>
+</section>
+<section id="fonetico" class="hidden">
+<h1>Fonético-Fonológico</h1><p class="lead">Explora fonemas, estructuras y patrones de error.</p>
+<div class="tabs"><button class="on" onclick="subtab(this,'f-fonemas')">Fonemas</button><button onclick="subtab(this,'f-difonos')">Dífonos</button><button onclick="subtab(this,'f-procesos')">Procesos fonológicos</button><button onclick="subtab(this,'f-conciencia')">Conciencia fonológica</button></div>
+<div id="f-fonemas">
+<div class="panel"><h3>Modo de selección</h3>
+<div class="chips no-print" id="modeButtons">
+<button class="chip" onclick="setPhonemeMode('jakobson',this)">🧭 Organización estructural · Jakobson</button>
+<button class="chip" onclick="setPhonemeMode('age',this)">🎂 Adquisición fonológica · Chile</button>
+<button class="chip sel" onclick="setPhonemeMode('manual',this)">✋ Selección manual</button>
+</div>
+<div id="modeInfo" class="notice" style="margin-top:12px"><b>Selección manual:</b> elige directamente el fonema que deseas trabajar.</div>
+<p class="small">La organización de Jakobson se presenta como marco estructural de oposiciones fonológicas, no como una cronología rígida ni como una lista exacta de fonemas. La referencia chilena se presenta separadamente y se apoya en Vivar y León (2009), quienes señalan variabilidad individual y desaconsejan establecer una secuencia cronológica estricta. Debe utilizarse como orientación clínica y no como criterio diagnóstico aislado.</p></div>
+<div class="panel"><h3>Selecciona un fonema</h3><div class="chips" id="phonemes"></div><p>Objetivo actual: <b id="cur">/k/</b></p><p class="small">Referencia chilena: Vivar, P. & León, H. (2009), muestra de niños hablantes de español de Chile de 3;0 a 5;11 años. Los autores describen tendencias de adquisición, pero advierten que no es pertinente establecer una cronología estricta. Esta información orienta y no reemplaza la evaluación individual.</p></div>
+<div id="phonemeDetail" class="panel activity"></div>
+</div>
+<div id="f-difonos" class="hidden"><div class="grid2">
+<div class="card"><h3>Grupos con /l/</h3><div class="chips"><button class="chip" onclick="openDiphone('/pl/')">/pl/</button><button class="chip" onclick="openDiphone('/bl/')">/bl/</button><button class="chip" onclick="openDiphone('/fl/')">/fl/</button><button class="chip" onclick="openDiphone('/kl/')">/kl/</button><button class="chip" onclick="openDiphone('/gl/')">/gl/</button><button class="chip" onclick="openDiphone('/tl/')">/tl/</button></div><p>Ruta: percepción → estructura CCV → palabra → frase → habla conectada.</p></div>
+<div class="card"><h3>Grupos con /r/</h3><div class="chips"><button class="chip" onclick="openDiphone('/pr/')">/pr/</button><button class="chip" onclick="openDiphone('/br/')">/br/</button><button class="chip" onclick="openDiphone('/fr/')">/fr/</button><button class="chip" onclick="openDiphone('/tr/')">/tr/</button><button class="chip" onclick="openDiphone('/dr/')">/dr/</button><button class="chip" onclick="openDiphone('/kr/')">/kr/</button><button class="chip" onclick="openDiphone('/gr/')">/gr/</button></div><p>Observar especialmente reducción de grupo, sustitución y epéntesis.</p></div></div></div>
+<div id="f-procesos" class="hidden"><div class="grid">
+<div class="card"><h3>🏗️ Estructura silábica</h3><p>Omisiones, reducción de grupos y simplificación de estructuras.</p><b>Actividad:</b> contrastar palabra objetivo con producción simplificada usando apoyo visual.</div>
+<div class="card"><h3>🔄 Sustituciones</h3><p>Patrones sistemáticos de reemplazo entre clases de sonidos.</p><b>Actividad:</b> pares contrastivos funcionales y escucha dirigida.</div>
+<div class="card"><h3>🎧 Asimilaciones</h3><p>Influencia de un segmento sobre otro dentro de la palabra.</p><b>Actividad:</b> discriminación y producción en palabras cuidadosamente seleccionadas.</div></div></div>
+<div id="f-conciencia" class="hidden"><div class="grid">
+<div class="card"><h3>👏 Sílabas</h3><p>Segmentar, contar, unir y manipular sílabas.</p></div><div class="card"><h3>🔊 Sonido inicial/final</h3><p>Identificar y comparar sonidos en palabras.</p></div><div class="card"><h3>🧱 Síntesis y análisis</h3><p>Unir sonidos y segmentar palabras según el nivel de desarrollo.</p></div></div></div>
+</section>
+<section id="semantica" class="hidden">
+<h1>Semántica</h1><p class="lead">Actividades desde vocabulario funcional hacia relaciones léxicas más complejas.</p>
+<div class="grid">
+<div class="card"><span class="badge">Inicial</span><h3>🖼️ Nombrar y comprender</h3><p>Seleccionar imágenes de objetos/acciones, nombrarlas y asociarlas a su función.</p><b>Criterio:</b> aumenta variedad y precisión léxica con menor apoyo.</div>
+<div class="card"><span class="badge">Intermedio</span><h3>🧺 Categorías</h3><p>Clasificar alimentos, animales, ropa, transportes u otras categorías y explicar el criterio.</p><b>Extensión:</b> intruso semántico y subcategorías.</div>
+<div class="card"><span class="badge">Intermedio</span><h3>🔍 Atributos</h3><p>Describir por color, forma, tamaño, partes, función y ubicación.</p></div>
+<div class="card"><span class="badge">Avanzado</span><h3>↔️ Relaciones</h3><p>Sinónimos, antónimos, asociaciones, semejanzas y diferencias.</p></div>
+<div class="card"><span class="badge">Avanzado</span><h3>💡 Definiciones</h3><p>Construir definiciones usando categoría + atributos + función.</p></div>
+<div class="card"><span class="badge">Comprensión</span><h3>🧠 Vocabulario en contexto</h3><p>Inferir significado de palabras a partir de una frase o texto breve.</p></div>
+</div></section>
+<section id="morfosintaxis" class="hidden">
+<h1>Morfosintaxis</h1><p class="lead">Progresión flexible desde combinaciones simples hacia estructuras complejas.</p>
+<div class="grid">
+<div class="card"><h3>👤+🏃 Sujeto + verbo</h3><p>Describir acciones a partir de imágenes: “La niña corre”.</p></div>
+<div class="card"><h3>👤+🏃+🎯 S+V+CD</h3><p>Expandir: “El niño come una manzana”. Contrastar quién, qué hace y qué.</p></div>
+<div class="card"><h3>🎁 Complemento indirecto</h3><p>Construir oraciones con destinatario: “Ana entrega un regalo a mamá”.</p></div>
+<div class="card"><h3>🔗 Nexos y conectores</h3><p>Usar y, pero, porque, después, entonces y otros según el nivel.</p></div>
+<div class="card"><h3>⏰ Tiempo verbal</h3><p>Contrastar pasado, presente y futuro mediante secuencias y rutinas.</p></div>
+<div class="card"><h3>📏 Expansión</h3><p>Añadir adjetivos, adverbios y complementos sin perder concordancia.</p></div>
+</div></section>
+<section id="pragmatica" class="hidden">
+<h1>Pragmática</h1><p class="lead">Intervención funcional en interacción real y contextos significativos.</p>
+<div class="grid">
+<div class="card"><h3>👋 Iniciar interacción</h3><p>Saludar, llamar la atención del interlocutor, pedir ayuda o compartir interés.</p></div>
+<div class="card"><h3>🔄 Turnos</h3><p>Juegos de intercambio con claves visuales para esperar, responder y continuar.</p></div>
+<div class="card"><h3>💬 Conversación</h3><p>Iniciar, mantener tema, hacer preguntas relacionadas y cerrar adecuadamente.</p></div>
+<div class="card"><h3>🛠️ Reparación</h3><p>Practicar qué hacer cuando el interlocutor no comprende: repetir, reformular o agregar información.</p></div>
+<div class="card"><h3>🧭 Contexto</h3><p>Ajustar lenguaje al interlocutor, situación y propósito comunicativo.</p></div>
+<div class="card"><h3>🏫 Generalización</h3><p>Practicar con pares, docentes, familia y distintos espacios de la escuela.</p></div>
+</div></section>
+<section id="narracion" class="hidden">
+<h1>Discurso y Narración</h1><p class="lead">Construcción progresiva de relatos comprensibles y organizados.</p>
+<div class="grid">
+<div class="card"><h3>1️⃣ Ordenar escenas</h3><p>Secuenciar 3–5 imágenes y usar primero, después y al final.</p></div>
+<div class="card"><h3>👥 Personajes y lugar</h3><p>Responder quién y dónde antes de relatar.</p></div>
+<div class="card"><h3>⚠️ Problema</h3><p>Identificar qué ocurrió y por qué constituye un problema.</p></div>
+<div class="card"><h3>🧰 Acción</h3><p>Explicar qué hizo el personaje para resolver la situación.</p></div>
+<div class="card"><h3>🏁 Consecuencia</h3><p>Relatar cómo terminó y qué cambió.</p></div>
+<div class="card"><h3>🎙️ Relato completo</h3><p>Integrar estructura narrativa, conectores, vocabulario y coherencia.</p></div>
+</div></section>
+
+<section id="bancoFF" class="hidden">
+<span class="badge">Banco ampliado</span>
+<h1>Banco Fonético-Fonológico</h1>
+<p class="lead">Actividades organizadas por tipo de intervención. Ajusta la selección a la evaluación, desempeño, inteligibilidad y necesidades comunicativas del estudiante.</p>
+
+<div class="grid">
+<div class="card"><h3>🗣️ Fonemas</h3><p>Articulación, estabilización y generalización.</p><button class="secondary" onclick="show('fonetico')">Abrir fonemas</button></div>
+<div class="card"><h3>🔗 Dífonos consonánticos</h3><p>/pl/, /bl/, /fl/, /kl/, /gl/, /tl/, /pr/, /br/, /fr/, /tr/, /dr/, /kr/, /gr/.</p><button class="secondary" onclick="document.getElementById('difonosBanco').scrollIntoView()">Ver actividades</button></div>
+<div class="card"><h3>🧩 Fonemas trabantes / codas</h3><p>Trabajo específico de consonantes en cierre silábico.</p><button class="secondary" onclick="document.getElementById('trabantesBanco').scrollIntoView()">Ver actividades</button></div>
+<div class="card"><h3>🔄 Procesos fonológicos</h3><p>Estructura silábica, sustitución y asimilación.</p><button class="secondary" onclick="document.getElementById('procesosBanco').scrollIntoView()">Ver actividades</button></div>
+<div class="card"><h3>👂 Conciencia fonológica</h3><p>Conciencia léxica, silábica y fonémica.</p><button class="secondary" onclick="document.getElementById('concienciaBanco').scrollIntoView()">Ver actividades</button></div>
+</div>
+
+<div id="difonosBanco" class="card" style="margin-top:18px"><span class="badge">Banco ampliado v6</span><h2>🔗 Dífonos consonánticos</h2>
+<p>Selecciona un dífono para acceder a palabras objetivo y una ruta graduada de intervención. Se mantiene el término <b>dífono consonántico</b> por su uso clínico habitual; estructuralmente corresponden a grupos consonánticos de ataque complejo.</p>
+<div class="notice"><b>Criterio clínico:</b> la reducción de un grupo consonántico no se interpreta automáticamente como un problema articulatorio. Define el punto de entrada según evaluación fonético-fonológica, inteligibilidad, consistencia del patrón e impacto funcional.</div>
+<div class="panel" style="margin-top:14px"><h3>Selecciona un dífono</h3><div class="chips" id="diphones"></div><p>Objetivo actual: <b id="curDiphone">/pl/</b></p></div>
+<div id="diphoneDetail" class="panel activity"></div>
+</div>
+
+<div id="trabantesBanco" class="card" style="margin-top:18px"><h2>🧩 Fonemas trabantes / codas silábicas</h2>
+<p>Bloque independiente para trabajar la consonante que cierra la sílaba, diferenciándola de un dífono consonántico.</p>
+<div class="activity-bank">
+<div class="activity-item"><h4>1. ¿Qué sonido cierra?</h4><p>Decir lentamente una palabra y marcar con una ficha el sonido que aparece al cierre de la sílaba.</p><p class="meta">Ejemplos según objetivo: alto, isla, antes, árbol.</p><p class="criteria"><b>Avance:</b> reconoce presencia/ausencia de la trabante.</p></div>
+<div class="activity-item"><h4>2. Tren de sonidos</h4><p>Cada ficha representa un segmento. El estudiante mueve las fichas en orden sin “perder” la consonante de cierre.</p><p class="meta">Especialmente útil ante omisión de coda.</p><p class="criteria"><b>Avance:</b> conserva la estructura al repetir.</p></div>
+<div class="activity-item"><h4>3. Palabra completa</h4><p>Contrastar auditivamente una producción con omisión y la palabra completa; luego producir con modelo y demora.</p><p class="meta">Usar vocabulario conocido.</p><p class="criteria"><b>Avance:</b> produce la coda con menor ayuda.</p></div>
+<div class="activity-item"><h4>4. Frase secreta</h4><p>Incorporar palabras logradas en frases, descripciones y conversación usando una señal discreta de autocorrección.</p><p class="meta">Generalización a aula y hogar.</p><p class="criteria"><b>Avance:</b> mantiene la coda en habla menos dirigida.</p></div>
+</div></div>
+
+<div id="procesosBanco" class="card" style="margin-top:18px"><h2>🔄 Procesos de simplificación fonológica</h2>
+<div class="activity-bank">
+<div class="activity-item"><h4>Estructura silábica</h4><p>Representar sílabas o segmentos con fichas, palmadas o bloques para hacer visible lo que se omite o simplifica.</p><p class="criteria"><b>Registro:</b> modelo, clave visual o producción independiente.</p></div>
+<div class="activity-item"><h4>Sustituciones</h4><p>Contrastar auditivamente la producción y el sonido objetivo; después pasar a producción controlada.</p><p class="criteria"><b>Avance:</b> discrimina antes de exigir estabilidad productiva.</p></div>
+<div class="activity-item"><h4>Asimilaciones</h4><p>Segmentar palabras donde un sonido tiende a hacerse parecido a otro, producir por partes y volver a unir.</p><p class="criteria"><b>Avance:</b> mantiene diferenciados los segmentos.</p></div>
+<div class="activity-item"><h4>Generalización</h4><p>Usar palabras dominadas en descripción, cuento, conversación y rutinas naturales, disminuyendo las claves.</p><p class="criteria"><b>Avance:</b> disminuye el patrón en contextos menos estructurados.</p></div>
+</div></div>
+
+<div id="concienciaBanco" class="card" style="margin-top:18px"><h2>👂 Conciencia fonológica</h2>
+<div class="activity-bank">
+<div class="activity-item"><h4>Conciencia léxica</h4><p>Contar palabras de una oración, ordenarlas y detectar palabras agregadas u omitidas.</p><p class="criteria"><b>Progresión:</b> oraciones breves → más largas.</p></div>
+<div class="activity-item"><h4>Conciencia silábica</h4><p>Segmentar, contar, unir e identificar sílaba inicial/final; luego agregar u omitir sílabas.</p><p class="criteria"><b>Progresión:</b> estructuras simples → complejas.</p></div>
+<div class="activity-item"><h4>Sonido inicial y final</h4><p>Identificar el sonido objetivo y evocar otra palabra que comience o termine igual.</p><p class="criteria"><b>Avance:</b> elección entre opciones → evocación espontánea.</p></div>
+<div class="activity-item"><h4>Conciencia fonémica</h4><p>Unir y segmentar fonemas y, cuando corresponda, realizar adición, omisión o sustitución.</p><p class="criteria"><b>Progresión:</b> síntesis/segmentación → manipulación.</p></div>
+</div></div>
+
+<div class="notice" style="margin-top:18px"><b>Referencia clínica:</b> las edades de adquisición no deben utilizarse de manera rígida. La selección de objetivos debe considerar evaluación individual, inteligibilidad, impacto funcional, perfil lingüístico y contexto.</div>
+</section>
+
+<section id="sesion" class="hidden">
+<h1>Crear mi sesión</h1><p class="lead">Generador local de planificación. Puedes imprimir el resultado.</p>
+<div class="panel session">
+<div class="field"><label>Nivel</label><select id="nivel"><option>Prekínder</option><option>Kínder</option><option>1.º–2.º básico</option><option>3.º–4.º básico</option><option>5.º–6.º básico</option></select></div>
+<div class="field"><label>Duración</label><select id="dur"><option>30 minutos</option><option selected>40 minutos</option><option>45 minutos</option></select></div>
+<div class="field"><label>Área</label><select id="area" onchange="areaGoal()"><option>Fonético-Fonológico</option><option>Semántica</option><option>Morfosintaxis</option><option>Pragmática</option><option>Discurso y Narración</option></select></div>
+<div class="field"><label>Nivel de apoyo</label><select id="support"><option>Alto</option><option selected>Moderado</option><option>Mínimo</option></select></div>
+<div class="field"><label>Objetivo específico</label><input id="goal" value="Producir y generalizar el fonema /k/ en contextos progresivos."></div>
+<div class="field"><label>Intereses / observaciones</label><textarea id="obs" placeholder="Ej.: animales, Minecraft, fútbol, apoyo visual, tipo de error..."></textarea></div>
+</div>
+<div class="actions no-print" style="margin-top:14px"><button class="primary" onclick="generate()">Generar sesión</button><button class="secondary" onclick="window.print()">Imprimir</button></div>
+<div id="plan" class="panel hidden"></div>
+</section>
+<section id="registro" class="hidden">
+<h1>Registro de avances</h1><p class="lead">Pauta transversal para seguimiento.</p>
+<div class="panel"><table><thead><tr><th>Indicador</th><th>Logrado</th><th>En desarrollo</th><th>Requiere apoyo</th></tr></thead><tbody>
+<tr><td>Comprende la consigna y el objetivo de la tarea</td><td>☐</td><td>☐</td><td>☐</td></tr>
+<tr><td>Responde con apoyo planificado</td><td>☐</td><td>☐</td><td>☐</td></tr>
+<tr><td>Aumenta precisión/independencia durante la actividad</td><td>☐</td><td>☐</td><td>☐</td></tr>
+<tr><td>Transfiere la habilidad a un contexto menos estructurado</td><td>☐</td><td>☐</td><td>☐</td></tr>
+</tbody></table><p class="small">Registrar además porcentaje o frecuencia cuando sea pertinente, tipo de claves utilizadas, errores predominantes y observaciones cualitativas.</p></div>
+</section>
+<section id="imprimibles" class="hidden">
+<h1>Imprimibles</h1><p class="lead">Plantillas listas para imprimir desde el navegador.</p>
+<div class="grid">
+<div class="card resource"><h3>📋 Pauta de sesión</h3><p>Objetivo: __________________________</p><p>Actividad: _________________________</p><p>Apoyos: ___________________________</p><button class="secondary no-print" onclick="window.print()">Imprimir</button></div>
+<div class="card resource"><h3>📈 Registro rápido</h3><p>☐ Logrado &nbsp; ☐ En desarrollo</p><p>☐ Requiere apoyo</p><p>Observación: ______________________</p><button class="secondary no-print" onclick="window.print()">Imprimir</button></div>
+<div class="card resource"><h3>🏠 Generalización hogar/aula</h3><p>Habilidad: _________________________</p><p>Contexto: _________________________</p><p>Ejemplo funcional: _________________</p><button class="secondary no-print" onclick="window.print()">Imprimir</button></div>
+</div></section>
+<section id="legal" class="hidden">
+<h1>Términos de uso y aviso profesional</h1>
+<p class="lead">Información general para el uso responsable de Lenguaje en Desarrollo.</p>
+<div class="panel">
+<h3>1. Finalidad de la plataforma</h3>
+<p>Lenguaje en Desarrollo es una herramienta educativa y de apoyo a la planificación de actividades de intervención fonoaudiológica infantil. Sus contenidos tienen carácter orientativo y deben ser seleccionados, adaptados e interpretados de acuerdo con la evaluación individual y el criterio profesional.</p>
+<h3>2. No sustituye evaluación ni diagnóstico</h3>
+<p>La información, actividades, rutas de intervención, criterios de avance y sesiones generadas por esta plataforma no constituyen por sí mismas una evaluación, diagnóstico, indicación médica ni garantía de resultados terapéuticos.</p>
+<h3>3. Responsabilidad profesional</h3>
+<p>Quien utilice el material debe determinar su pertinencia para cada niño, considerando edad, desarrollo, antecedentes, necesidades comunicativas, contexto educativo/familiar y resultados de evaluación.</p>
+<h3>4. Materiales y propiedad intelectual</h3>
+<p>Los contenidos originales de esta plataforma pueden utilizarse como apoyo educativo conforme a las condiciones que establezca su responsable. No deben incorporarse materiales, imágenes, pruebas, pictogramas u obras de terceros sin contar con la licencia, autorización o derecho de uso correspondiente.</p>
+<h3>5. Menores de edad</h3>
+<p>La versión pública está diseñada para utilizarse sin ingresar datos personales identificables de niños, niñas o adolescentes. No se deben escribir nombres completos, RUT, direcciones, fotografías, diagnósticos vinculados a una identidad u otros antecedentes sensibles en campos de texto de una versión pública.</p>
+<h3>6. Actualización</h3>
+<p>Los contenidos pueden ser revisados y actualizados conforme evolucione la evidencia profesional y la normativa aplicable.</p>
+</div>
+<div class="notice"><b>Importante:</b> este texto es una medida preventiva de información y uso responsable; no constituye asesoría jurídica ni elimina por sí solo todos los riesgos legales.</div>
+</section>
+<section id="privacidad" class="hidden">
+<h1>Política de privacidad</h1>
+<p class="lead">Versión inicial diseñada bajo el principio de minimización de datos.</p>
+<div class="panel">
+<h3>Datos de estudiantes</h3>
+<p>Esta versión de Lenguaje en Desarrollo no requiere crear cuentas de estudiantes ni almacenar nombres, RUT, fotografías, diagnósticos, informes clínicos o educativos ni otros datos que permitan identificar a un niño.</p>
+<h3>Campos de observaciones</h3>
+<p>Si se utilizan campos locales para preparar una sesión, se recomienda escribir únicamente información pedagógica o terapéutica no identificable. Por ejemplo: “requiere apoyo visual” o “presenta dificultad en grupo consonántico”, sin agregar nombre, RUT u otros identificadores.</p>
+<h3>Almacenamiento</h3>
+<p>La versión actual funciona como una página HTML local y no incorpora por sí misma una base de datos, registro de usuarios ni sistema de envío de información a un servidor.</p>
+<h3>Futuras funciones</h3>
+<p>Antes de incorporar cuentas, historiales de estudiantes, almacenamiento en línea, analítica identificable o intercambio de información, será necesario diseñar medidas de seguridad, consentimiento, control de acceso, retención y eliminación de datos acordes con la normativa chilena aplicable.</p>
+</div>
+</section>
+</main></div>
+<script>
+
+const goals={
+'Fonético-Fonológico':'Producir y generalizar el fonema /k/ en contextos progresivos.',
+'Semántica':'Ampliar vocabulario y establecer relaciones semánticas funcionales.',
+'Morfosintaxis':'Construir y expandir oraciones con organización morfosintáctica adecuada.',
+'Pragmática':'Desarrollar habilidades conversacionales funcionales con distintos interlocutores.',
+'Discurso y Narración':'Organizar y relatar una secuencia con personajes, problema, acciones y consecuencia.'
+};
+function show(id,btn){
+  document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));
+  const target=document.getElementById(id);
+  if(!target) return;
+  target.classList.remove('hidden');
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(!btn){
+    const buttons=[...document.querySelectorAll('.menu button')];
+    const match=buttons.find(b=>(b.getAttribute('onclick')||'').includes("'"+id+"'"));
+    if(match) match.classList.add('active');
+  }
+  window.scrollTo(0,0);
+}
+function subtab(btn,id){
+  document.querySelectorAll('#fonetico .tabs button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  ['f-fonemas','f-difonos','f-procesos','f-conciencia'].forEach(x=>{
+    const el=document.getElementById(x);
+    if(el) el.classList.add('hidden');
+  });
+  const target=document.getElementById(id);
+  if(target) target.classList.remove('hidden');
+}
+
+const phonemes={
+"/m/":{graf:"m",tipo:"nasal bilabial",positions:{initial:["mano","mesa","mono","moto","mapa","mamá","miel","muñeca","maleta","melón"],medial:["cama","toma","comida","camino","tomate","paloma","camisa","semilla","limón","amigo"]},cue:"Labios juntos; sentir vibración y salida de aire por la nariz."},
+"/p/":{graf:"p",tipo:"oclusiva bilabial",positions:{initial:["pato","pelo","puma","pala","pera","pino","poco","puerta","pelota","papel"],medial:["mapa","sopa","copa","ropa","lupa","papá","zapato","mariposa","pepino","campana"]},cue:"Cerrar ambos labios y liberar el aire en una explosión breve, sin voz."},
+"/t/":{graf:"t",tipo:"oclusiva dental",positions:{initial:["taza","tela","tina","toma","tubo","tapa","toro","túnel","tigre","tomate"],medial:["gato","moto","pato","bota","foto","ratón","pelota","tomate","patito","maleta"]},cue:"Apoyar la punta o lámina de la lengua en la zona dental superior y liberar el aire de forma breve."},
+"/n/":{graf:"n",tipo:"nasal alveolar",positions:{initial:["nido","nube","nene","nada","nudo","nariz","naranja","noche","nieve","número"],medial:["mano","luna","mono","cuna","rana","tenedor","plátano","camino","conejo","moneda"],final:["pan","tren","limón","ratón","jabón","avión","melón","camión"]},cue:"Punta de la lengua en la zona alveolar y salida de aire por la nariz.",note:"En coda, el punto de articulación de /n/ puede asimilarse al sonido siguiente; por eso el banco prioriza ejemplos finales para un trabajo más controlado."},
+"/k/":{graf:"c/qu/k",tipo:"oclusiva velar",positions:{initial:["casa","cama","copa","cubo","queso","cuna","café","coco","capa","cometa"],medial:["vaca","boca","taco","saco","foca","pico","moco","paquete","muñeca","chocolate"]},cue:"Elevar la parte posterior de la lengua hacia el velo del paladar; liberar el aire de forma breve."},
+"/b/":{graf:"b/v",tipo:"bilabial sonora",positions:{initial:["boca","bota","bebé","burro","barco","vaso","vela","vaca","bala","bufanda"],medial:["nube","lobo","uva","abeja","caballo","lavar","sábado","avión","cebolla","oveja"]},cue:"Juntar los labios para el inicio de palabra; en otros contextos puede haber un contacto más suave. Producir con voz.",note:"En español, /b/ puede realizarse con cierre completo o con una aproximación más suave según el contexto. No es necesario exigir siempre una oclusión completa."},
+"/d/":{graf:"d",tipo:"dental sonora",positions:{initial:["dado","dedo","duna","dama","dos","día","ducha","diente","dormir","dibujo"],medial:["nido","rueda","cadena","helado","moneda","comida","medalla","cuaderno","peludo","piedra"],final:["red","pared","ciudad","salud","verdad"]},cue:"Contacto lingual suave en la zona dental; producir con voz. La realización puede variar según el contexto fonético.",note:"La /d/ entre vocales y al final de palabra puede debilitarse en el habla natural. Los ejemplos finales sirven como blancos estructurales y deben interpretarse considerando la variedad dialectal del estudiante."},
+"/g/":{graf:"g/gu",tipo:"velar sonora",positions:{initial:["gato","goma","gusano","gorro","gula","guitarra","guerra","gota","gallo","guante"],medial:["lago","amigo","mago","higo","jugo","agua","regalo","tortuga","hormiga","bigote"]},cue:"Elevar la parte posterior de la lengua hacia la zona velar y producir con vibración de la voz.",note:"En posición intervocálica, /g/ puede realizarse con un contacto más abierto o aproximante; ajustar la exigencia articulatoria al contexto."},
+"/f/":{graf:"f",tipo:"fricativa labiodental",positions:{initial:["foca","foto","faro","fideo","fila","fuego","familia","falda","fresa","flor"],medial:["café","sofá","jirafa","teléfono","búfalo","estufa","elefante","semáforo","delfín","alfombra"]},cue:"Dientes superiores sobre el labio inferior y salida continua de aire."},
+"/s/":{graf:"s/c/z",tipo:"fricativa alveolar",positions:{initial:["sapo","sopa","suma","silla","saco","siete","sol","semilla","sello","semáforo"],medial:["mesa","casa","vaso","queso","piso","camisa","gusano","payaso","pasillo","tesoro"],codaMedial:["isla","pasta","casco","mosca","pescado","escoba","espalda","pastel","castillo","hospital"],final:["dos","tres","mes","arroz","lápiz"]},cue:"Dientes próximos, lengua dentro de la boca y aire continuo por el centro.",note:"En el español de Chile, /s/ en coda puede aspirarse, debilitarse u omitirse según hablante y contexto. Trabajarla como objetivo solo cuando sea pertinente para la inteligibilidad y el perfil del estudiante, evitando tratar una variante dialectal como error."},
+"/x/":{graf:"j/g",tipo:"fricativa velar",positions:{initial:["jugo","jabón","jirafa","jota","jefe","jardín","jamón","juguete","jarrón","gigante"],medial:["caja","ojo","abeja","conejo","pájaro","tijera","espejo","naranja","oreja","pijama"]},cue:"Producir fricción suave en la zona posterior de la boca, sin forzar la garganta."},
+"/l/":{graf:"l",tipo:"lateral alveolar",positions:{initial:["luna","lápiz","lobo","lata","leche","lima","lupa","loro","lana","limón"],medial:["pala","pelo","malo","pelota","paloma","helado","maleta","elefante","polera","caleta"],codaMedial:["alto","falda","caldo","pulpo","selva","dulce"],final:["sol","sal","papel","azul","caracol","animal"]},cue:"Punta de la lengua en la zona alveolar; el aire sale por los lados."},
+"/ɾ/":{graf:"r",tipo:"vibrante simple",positions:{medial:["cara","pera","loro","arena","mariposa","pirata","corona","vereda","oreja","jirafa"],codaMedial:["puerta","torta","carta","barco","parque","corto"],final:["mar","flor","comer","saltar","amor","color"]},cue:"En posición intervocálica, realizar un contacto lingual breve y único en la zona alveolar.",note:"La oposición /ɾ/–/r/ es contrastiva principalmente entre vocales. En coda, la realización de la rótica puede variar; los ejemplos de coda se presentan como trabajo estructural de la rótica y no como exigencia de una vibrante simple estricta."},
+"/r/":{graf:"r/rr",tipo:"vibrante múltiple",positions:{initial:["ratón","rosa","rueda","rana","rojo","reloj","risa","ropa","río","rama"],medial:["perro","carro","torre","gorro","burro","tierra","jarra","zorro","barriga","correa"]},cue:"Favorecer vibraciones linguales sucesivas con flujo de aire estable, sin tensión excesiva.",note:"En español, la vibrante múltiple aparece al inicio de palabra y entre vocales cuando se representa con «rr»; también puede aparecer después de ciertas consonantes según la estructura de la palabra."},
+"/ɲ/":{graf:"ñ",tipo:"nasal palatal",positions:{initial:["ñandú","ñoqui"],medial:["niño","niña","piña","muñeca","araña","baño","pañuelo","otoño","caña","señora"]},cue:"Elevar la parte media de la lengua hacia el paladar y permitir la salida de aire por la nariz.",note:"La /ɲ/ en posición inicial es poco frecuente en el vocabulario infantil del español; por ello se ofrecen pocos ejemplos iniciales y se prioriza la posición medial."},
+"/tʃ/":{graf:"ch",tipo:"africada postalveolar",positions:{initial:["chala","chico","chile","chocolate","chupete","chancho","chiste","choclo"],medial:["leche","noche","mochila","cuchara","lechuga","muchacho","pechuga","salchicha"]},cue:"Iniciar con un cierre breve y liberar el aire con fricción, manteniendo una sola secuencia articulatoria."},
+"/ʝ/":{graf:"y/ll",tipo:"palatal sonora",positions:{initial:["yate","yema","yoyo","llave","lluvia","llama","lleno","yeso"],medial:["payaso","mayonesa","pollo","caballo","cebolla","estrella","silla","toalla"]},cue:"Acercar la parte media de la lengua al paladar y producir con voz, ajustando el grado de contacto a la variedad del hablante.",note:"Se presenta como /ʝ/ siguiendo el yeísmo habitual en gran parte de Chile; la realización fonética puede variar entre hablantes."}
+};
+Object.values(phonemes).forEach(d=>{const p=d.positions||{};d.words=[...(p.initial||[]),...(p.medial||[]),...(p.codaMedial||[]),...(p.final||[])].filter((v,i,a)=>a.indexOf(v)===i)});
+let chosen='/k/';
+let phonemeMode='manual';
+
+const manualOrder=Object.keys(phonemes);
+// Organización estructural orientativa inspirada en las oposiciones fonológicas descritas por Jakobson.
+// No corresponde a una cronología ni a una secuencia fonema-por-fonema propuesta literalmente por el autor.
+const jakobsonGroups=[
+ {label:'Contrastes básicos · nasal/oral y labial/coronal',items:['/m/','/p/','/b/','/n/','/t/','/d/']},
+ {label:'Ampliación del lugar de articulación · velar y palatal',items:['/k/','/g/','/ɲ/','/ʝ/']},
+ {label:'Mayor diferenciación de modo · africada y fricativas',items:['/tʃ/','/f/','/s/','/x/']},
+ {label:'Líquidas y contrastes róticos',items:['/l/','/ɾ/','/r/']}
+];
+// Orden clínico orientativo basado en la tendencia descrita para español de Chile por Vivar y León (2009), no una edad normativa rígida.
+const ageGroups=[
+ {label:'Mayor estabilidad desde los 3 años en la muestra',items:['/p/','/t/','/m/','/n/','/ɲ/','/b/','/ʝ/','/k/']},
+ {label:'Alto desempeño, con variabilidad durante el período preescolar',items:['/g/','/d/','/tʃ/','/l/','/f/']},
+ {label:'Mayor dificultad o variabilidad en la muestra',items:['/s/','/x/','/ɾ/','/r/']}
+];
+
+const syllableExceptions={
+ 'miel':1,'sol':1,'sal':1,'flor':1,'mar':1,'pan':1,'tren':1,'red':1,'dos':1,'tres':1,'mes':1,'flor':1,
+ 'día':2,'río':2,'país':2,'maíz':2,'raíz':2,'oído':3,'caída':3,'reír':2,'leer':2,'poeta':3,
+ 'rueda':2,'tierra':2,'puerta':2,'fuego':2,'nieve':2,'siete':2,'diente':2,'guante':2,'guerra':2,'agua':2,
+ 'avión':2,'camión':2,'ciudad':2,'familia':3,'piano':2,'toalla':3,'mayonesa':4
+};
+function syllableCount(word){
+ const w=word.toLowerCase().replace(/[^a-záéíóúüñ]/g,'');
+ if(syllableExceptions[w]) return syllableExceptions[w];
+ const plain=w.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const nuclei=plain.match(/[aeiouy]+/g);
+ return Math.max(1,nuclei?nuclei.length:1);
+}
+function wordComplexity(word){
+ const w=word.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ let score=0;
+ // Penaliza ataques/codas complejas y secuencias consonánticas para ordenar dentro del mismo número de sílabas.
+ if(/[bcdfghjklmnpqrstvwxyz]{2,}/.test(w)) score+=3;
+ if(/[lr][bcdfghjklmnpqrstvwxyz]|[bcdfghjklmnpqrstvwxyz][lr]/.test(w)) score+=2;
+ if(/[bcdfghjklmnpqrstvwxyz]$/.test(w)) score+=1;
+ if(/[iu][aeo]|[aeo][iu]/.test(w)) score+=1;
+ score+=Math.min(w.length,12)/100;
+ return score;
+}
+function groupedByLength(words){
+ const groups={1:[],2:[],3:[],4:[]};
+ words.forEach(w=>{const n=syllableCount(w);groups[n>=4?4:n].push(w)});
+ Object.values(groups).forEach(arr=>arr.sort((a,b)=>wordComplexity(a)-wordComplexity(b)||a.localeCompare(b,'es')));
+ const labels={1:'Monosílabas',2:'Bisílabas',3:'Trisílabas',4:'Polisílabas'};
+ return [1,2,3,4].filter(n=>groups[n].length).map(n=>`<span class="word-level"><b>${labels[n]}:</b> ${groups[n].join(', ')}</span>`).join('<br>');
+}
+function wordGroups(d){
+ const groups=[];
+ if(d.positions.initial?.length) groups.push(`<div style="margin-bottom:10px"><b>Posición inicial</b><br>${groupedByLength(d.positions.initial)}</div>`);
+ if(d.positions.medial?.length) groups.push(`<div style="margin-bottom:10px"><b>Posición medial/intervocálica</b><br>${groupedByLength(d.positions.medial)}</div>`);
+ if(d.positions.codaMedial?.length) groups.push(`<div style="margin-bottom:10px"><b>Coda medial</b><br>${groupedByLength(d.positions.codaMedial)}</div>`);
+ if(d.positions.final?.length) groups.push(`<div><b>Final de palabra</b><br>${groupedByLength(d.positions.final)}</div>`);
+ return groups.join('');
+}
+function modeExplanation(mode){
+ if(mode==='jakobson') return '<b>Organización estructural · Jakobson:</b> aplicación orientativa al inventario del español basada en oposiciones y relaciones estructurales. Los grupos no representan una edad ni una secuencia fonema-por-fonema propuesta literalmente por Jakobson.';
+ if(mode==='age') return '<b>Adquisición fonológica · Chile:</b> agrupación orientativa según las tendencias de desempeño observadas por Vivar y León (2009) en niños chilenos de 3;0 a 5;11 años. El estudio advierte que no es pertinente establecer una cronología estricta: existe variabilidad individual.';
+ return '<b>Selección manual:</b> elige directamente el fonema que deseas trabajar.';
+}
+function setPhonemeMode(mode,btn){
+ phonemeMode=mode;
+ document.querySelectorAll('#modeButtons .chip').forEach(b=>b.classList.remove('sel'));
+ if(btn) btn.classList.add('sel');
+ document.getElementById('modeInfo').innerHTML=modeExplanation(mode);
+ buildPhonemes();
+}
+function makePhonemeButton(box,p){
+ if(!phonemes[p]) return;
+ let b=document.createElement('button');
+ b.className='chip'+(p===chosen?' sel':'');b.textContent=p;b.onclick=()=>pick(b,p);box.appendChild(b);
+}
+function buildPhonemes(){
+ const box=document.getElementById('phonemes');box.innerHTML='';
+ if(phonemeMode==='age'){
+   ageGroups.forEach(g=>{
+     const label=document.createElement('div');label.style.cssText='width:100%;font-size:12px;font-weight:800;color:#607d90;margin:7px 0 2px';label.textContent=g.label;box.appendChild(label);
+     g.items.forEach(p=>makePhonemeButton(box,p));
+   });
+ }else if(phonemeMode==='jakobson'){
+   jakobsonGroups.forEach(g=>{
+     const label=document.createElement('div');label.style.cssText='width:100%;font-size:12px;font-weight:800;color:#607d90;margin:7px 0 2px';label.textContent=g.label;box.appendChild(label);
+     g.items.forEach(p=>makePhonemeButton(box,p));
+   });
+ }else{
+   manualOrder.forEach(p=>makePhonemeButton(box,p));
+ }
+ detail();
+}
+
+function activityCards(p,d){
+ const activities=[
+  ["👂 1. Escucha y detección","El adulto dice una serie breve de palabras. El niño levanta una ficha o hace una señal cuando escucha el sonido "+p+".","Materiales: fichas o tarjetas. · Apoyo: modelado auditivo.","Avanzar cuando identifica el sonido de forma consistente en una serie breve."],
+  ["🔍 2. ¿Suena igual o diferente?","Presentar pares de palabras o producciones y decidir si contienen el mismo sonido objetivo. Evitar exigir producción si aún se está trabajando percepción.","Materiales: imágenes o palabras conocidas. · Apoyo: repetición lenta.","Criterio orientativo: 8 de 10 respuestas correctas en dos oportunidades."],
+  ["👄 3. Descubro cómo se produce","Usar espejo y una explicación breve: "+d.cue+" Comparar la producción del adulto con la del niño sin insistir ante fatiga.","Materiales: espejo. · Apoyo: claves visuales, gestuales y verbales.","Logro: encuentra la configuración con ayuda y puede repetirla sin esfuerzo excesivo."],
+  ["🗣️ 4. Sonido + vocales","Practicar combinaciones breves con vocales, ajustando el orden a la facilidad del niño: "+p+"a, "+p+"e, "+p+"i, "+p+"o, "+p+"u. Convertirlo en juego de eco, dado o recorrido.","Materiales: dado, tablero o fichas. · 5–10 intentos por bloque.","Pasar a palabras cuando la producción sea suficientemente estable en sílabas."],
+  ["🖼️ 5. Palabras objetivo",wordGroups(d)+"<br><b>Progresión sugerida:</b> comenzar por palabras de menor longitud y estructura más simple; avanzar a trisílabas y polisílabas cuando la producción se mantenga estable. Seleccionar 5–8 estímulos funcionales por vez.","Materiales: dibujos, objetos o tarjetas. · Apoyo: modelo → demora → producción espontánea.","Registrar aciertos y tipo de ayuda; aumentar longitud, variedad o complejidad solo si mantiene precisión."],
+  ["💬 6. Frases y oraciones","Incorporar las palabras logradas en estructuras breves: «Veo ___», «Quiero ___», «El/La ___ está…». Luego ampliar longitud y variabilidad.","Materiales: escenas o juego simbólico.","Criterio: mantiene el sonido objetivo al aumentar la longitud del enunciado."],
+  ["🎲 7. Juego funcional","Elegir un juego que provoque varias oportunidades naturales: búsqueda del tesoro, bingo, memoria, pesca, ruleta o misión secreta. Cada turno incluye una palabra o frase con "+p+".","Materiales: según juego. · Evitar convertir el juego en repetición mecánica.","Meta: oportunidades frecuentes con motivación y apoyos progresivamente menores."],
+  ["🌎 8. Generalización","Usar 3–5 palabras ya dominadas en conversación, descripción de una imagen, cuento breve, aula u hogar. Enseñar una señal discreta de autocorrección.","Contextos: conversación, lectura, narración, rutina escolar/hogar.","Generaliza cuando usa el sonido en tareas menos estructuradas y con menor ayuda."]
+ ];
+ return activities.map(a=>`<div class="activity-item"><h4>${a[0]}</h4><p>${a[1]}</p><p class="meta">${a[2]}</p><p class="criteria"><b>Avance:</b> ${a[3]}</p></div>`).join('');
+}
+
+function pick(btn,p){document.querySelectorAll('#phonemes .chip').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');chosen=p;document.getElementById('cur').textContent=p;detail()}
+function detail(){let d=phonemes[chosen];document.getElementById('phonemeDetail').innerHTML=`<span class="badge">${d.tipo}</span><h2>Banco de actividades · ${chosen}</h2><p><b>Grafema(s) de referencia:</b> ${d.graf}</p><div class="activity-item"><p>${wordGroups(d)}</p></div>${d.note?`<div class="notice"><b>Nota fonética/dialectal:</b> ${d.note}</div>`:""}<div class="route"><div class="step">👂<br>Escuchar</div><div class="step">🔍<br>Discriminar</div><div class="step">👄<br>Facilitar</div><div class="step">🗣️<br>Producir</div><div class="step">💬<br>Usar</div><div class="step">🌎<br>Generalizar</div></div><div class="notice"><b>Uso clínico:</b> no es necesario realizar todas las etapas en una sesión. Selecciona el punto de entrada según evaluación y desempeño; reduce o aumenta apoyos de manera gradual.</div><div class="activity-bank">${activityCards(chosen,d)}</div><div class="actions" style="margin-top:14px"><button class="primary no-print" onclick="sendPhoneme()">Agregar objetivo a mi sesión</button><button class="secondary no-print" onclick="window.print()">Imprimir actividades</button></div>`}
+function sendPhoneme(){document.getElementById('area').value='Fonético-Fonológico';document.getElementById('goal').value='Producir y generalizar el fonema '+chosen+' en contextos progresivos.';show('sesion')}
+function areaGoal(){document.getElementById('goal').value=goals[document.getElementById('area').value]}
+function generate(){let a=document.getElementById('area').value,n=document.getElementById('nivel').value,d=document.getElementById('dur').value,s=document.getElementById('support').value,g=document.getElementById('goal').value,o=document.getElementById('obs').value||'Sin observaciones adicionales.';let p=document.getElementById('plan');p.classList.remove('hidden');p.innerHTML=`<h2>Plan de sesión · ${d}</h2><p><b>Nivel:</b> ${n} &nbsp; | &nbsp; <b>Área:</b> ${a} &nbsp; | &nbsp; <b>Apoyo:</b> ${s}</p><p><b>Objetivo:</b> ${g}</p><p><b>Consideraciones:</b> ${o}</p><hr><h3>1. Inicio · 5 min</h3><p>Anticipar la sesión, activar conocimientos previos y presentar el objetivo con lenguaje claro y apoyo visual cuando sea útil.</p><h3>2. Actividad central · 15–20 min</h3><p>Realizar práctica graduada con oportunidades frecuentes de respuesta, modelado y retroalimentación específica. Ajustar número de estímulos y complejidad al desempeño.</p><h3>3. Aplicación funcional · 10 min</h3><p>Trasladar la habilidad a juego, descripción, conversación, lectura o narración según el área y nivel del estudiante.</p><h3>4. Generalización y cierre · 5 min</h3><p>Comprobar la habilidad en una tarea menos estructurada, reforzar estrategias útiles y acordar una oportunidad breve de práctica en aula u hogar.</p><h3>Registro</h3><p>☐ Logrado &nbsp; ☐ En desarrollo &nbsp; ☐ Requiere apoyo</p><p>Precisión/frecuencia: __________ &nbsp; Tipo de apoyo: __________</p><div class="notice"><b>Decisión clínica:</b> si la respuesta es inestable, simplificar la unidad o aumentar apoyos; si es consistente, aumentar variabilidad, complejidad y contextos de generalización.</div>`}
+function addMobileHomeButtons(){document.querySelectorAll('main>section:not(#inicio)').forEach(section=>{const b=document.createElement('button');b.className='mobile-home no-print';b.type='button';b.innerHTML='🏠 Volver al inicio';b.onclick=()=>show('inicio');section.insertBefore(b,section.firstChild)})}
+addMobileHomeButtons();
+buildPhonemes();
+
+
+const diphones={
+'/pl/':{graf:'pl',tipo:'oclusiva + lateral',cue:'Mantén /p/ y enlaza inmediatamente con /l/, sin agregar una vocal entre ambas consonantes.',initial:['plan','plato','plaza','pluma','pleno','plano','pliego','plátano','planeta','plumero'],medial:['sopla','dupla','copla','templo','amplio','cumple','diploma','completo']},
+'/bl/':{graf:'bl',tipo:'oclusiva + lateral',cue:'Inicia /b/ y pasa directamente a /l/. Evita separar la secuencia como “be-l”.',initial:['blusa','blanco','blando','bloque','blusa','blanquear'],medial:['cable','doble','tabla','pueblo','habla','mueble','nublado','amable','problema']},
+'/fl/':{graf:'fl',tipo:'fricativa + lateral',cue:'Sostén suavemente /f/ y enlaza con /l/ sin insertar una vocal.',initial:['flor','flan','flaco','flecha','flojo','flauta','flequillo','flotador'],medial:['infla','rifle','chifla','inflado','reflejo']},
+'/kl/':{graf:'cl',tipo:'oclusiva + lateral',cue:'Produce /k/ y enlaza con /l/ en un solo ataque silábico.',initial:['clan','club','clavo','clase','clima','cloro','claro','clave','clavel','clavija'],medial:['tecla','ancla','choclo','mezcla','bicicleta']},
+'/gl/':{graf:'gl',tipo:'oclusiva + lateral',cue:'Produce /g/ y pasa directamente a /l/, manteniendo ambos elementos.',initial:['globo','gloria','glosa','glotón','glaciar','glorieta'],medial:['regla','sigla','iglesia','arreglo']},
+'/tl/':{graf:'tl',tipo:'secuencia /t/ + /l/ · silabificación variable',cue:'Primero verifica cómo organiza espontáneamente la palabra el hablante. Si /tl/ funciona como inicio de sílaba en su variedad, enlaza /t/ con /l/ sin insertar una vocal.',initial:[],medial:['atlas','atleta','atlético','atletismo'],note:'Caso especial: /tl/ no debe equipararse automáticamente a los demás ataques complejos. En español existe variación dialectal en su silabificación (por ejemplo, at-las frente a a-tlas). En español de Chile conviene evaluar la producción individual y trabajarla solo cuando sea pertinente. Las palabras propuestas contienen la secuencia gráfica/fonológica <b>tl</b>, pero su pertenencia a una misma sílaba depende de la realización del hablante.'},
+'/pr/':{graf:'pr',tipo:'oclusiva + vibrante simple',cue:'Produce /p/ y enlaza rápidamente con un toque breve de /ɾ/. No agregues una vocal entre ambas consonantes.',initial:['pro','pre','prado','primo','presa','premio','precio','profe','prueba','princesa','primero'],medial:['aprieta','aprende','capricho','deprisa'],note:'En interior de palabra hay menos vocabulario infantil frecuente con /pr/ como ataque silábico; prioriza palabras iniciales funcionales antes de incorporar estímulos poco familiares.'},
+'/br/':{graf:'br',tipo:'oclusiva + vibrante simple',cue:'Inicia /b/ y enlaza con un toque breve de /ɾ/.',initial:['brazo','bravo','breve','brisa','broma','bruja','brocha','brillo','brócoli'],medial:['cabra','libro','cebra','sobre','abril','abrazo','sombrero','palabra']},
+'/fr/':{graf:'fr',tipo:'fricativa + vibrante simple',cue:'Sostén /f/ brevemente y enlaza con un toque de /ɾ/.',initial:['frío','frase','fresa','freno','fruta','frente','frasco','frutilla'],medial:['cofre','cifra','sufre','disfraz','refrigerador']},
+'/tr/':{graf:'tr',tipo:'oclusiva + vibrante simple',cue:'Produce /t/ y enlaza con un toque breve de /ɾ/.',initial:['tren','tres','trapo','trigo','trono','trucha','trenza','tractor','trompeta'],medial:['metro','cuatro','letra','otro','potro','teatro','estrella']},
+'/dr/':{graf:'dr',tipo:'oclusiva + vibrante simple',cue:'Produce /d/ y enlaza con un toque breve de /ɾ/.',initial:['dron','drama','dragón','drenaje','dramático'],medial:['piedra','madre','padre','cuadro','ladrón','cocodrilo'],note:'El grupo /dr/ es menos frecuente al inicio de palabras infantiles. Conviene priorizar vocabulario conocido y funcional.'},
+'/kr/':{graf:'cr',tipo:'oclusiva + vibrante simple',cue:'Produce /k/ y enlaza inmediatamente con un toque breve de /ɾ/.',initial:['cruz','cría','crema','cromo','crudo','cráter','cráneo','crayón'],medial:['micro','secreto','recreo','escribe'],note:'La grafía habitual es <b>cr</b>; /kr/ representa la secuencia fonológica.'},
+'/gr/':{graf:'gr',tipo:'oclusiva + vibrante simple',cue:'Produce /g/ y enlaza con un toque breve de /ɾ/.',initial:['gris','gran','grúa','grano','grito','grasa','grande','grillo','grupo','granja'],medial:['tigre','negro','ogro','alegre','lágrima']}
+};
+let chosenDiphone='/pl/';
+function diphoneWords(d){
+ let out=[];
+ if(d.initial?.length) out.push(`<div style="margin-bottom:10px"><b>Inicio de palabra</b><br>${groupedByLength([...new Set(d.initial)])}</div>`);
+ if(d.medial?.length) out.push(`<div><b>Interior de palabra · inicio de sílaba</b><br>${groupedByLength([...new Set(d.medial)])}</div>`);
+ return out.join('');
+}
+function diphoneActivities(p,d){
+ const ex=(d.initial||[]).slice(0,4).join(', ');
+ const syl=p.replaceAll('/','');
+ const acts=[
+ ['👂 1. Escuchar y detectar',`Presentar palabras con y sin ${p}. El estudiante realiza una señal cuando escucha el grupo objetivo.`,`Ejemplos: ${ex}.`,`Identifica la presencia del grupo de manera consistente.`],
+ ['🔍 2. Contrastar la estructura',`Comparar una palabra completa con una producción donde se reduce el grupo. Representar las dos consonantes con fichas diferentes, sin ridiculizar ni reforzar una forma incorrecta.`,`Meta perceptiva: notar que el grupo contiene dos consonantes antes de exigir producción.`,`Distingue presencia/ausencia de ambos elementos.`],
+ ['👄 3. Facilitar la secuencia',`${d.cue} Usar modelado lento, claves visuales o gestuales y retirar gradualmente la ayuda.`,`Evitar una vocal epentética entre las consonantes.`,`Mantiene los dos elementos con apoyo decreciente.`],
+ ['🗣️ 4. Dífono + vocales',`Practicar secuencias breves con las vocales que resulten funcionales y posibles: ${syl}a, ${syl}e, ${syl}i, ${syl}o, ${syl}u. No es necesario insistir en combinaciones poco naturales si no facilitan la palabra objetivo.`,`Usar eco, recorrido, dado o turnos breves.`,`Produce la secuencia de forma suficientemente estable para pasar a palabras.`],
+ ['🖼️ 5. Palabras objetivo',`${diphoneWords(d)}<br><b>Progresión:</b> comenzar con vocabulario conocido y estructuras más breves; aumentar longitud y complejidad solo cuando se mantengan ambos elementos del grupo.`,`Seleccionar 5–8 palabras funcionales por bloque.`,`Conserva el grupo en palabras con menor apoyo.`],
+ ['💬 6. Frases y oraciones',`Usar palabras logradas en estructuras como «Veo ___», «Quiero ___», «Encontré ___» y luego ampliar la oración.`,`Priorizar significado y comunicación, no solo repetición.`,`Mantiene ${p} al aumentar la longitud del enunciado.`],
+ ['🎲 7. Juego funcional',`Incorporar las palabras a memoria, bingo, ruleta, búsqueda del tesoro, juego simbólico o descripción de escenas.`,`Crear oportunidades naturales y frecuentes.`,`Usa el grupo durante el juego con apoyos cada vez menores.`],
+ ['🌎 8. Generalización',`Llevar 3–5 palabras dominadas a conversación, narración, aula y hogar. Utilizar una señal discreta de autocorrección cuando sea apropiado.`,`Registrar contexto y tipo de ayuda.`,`Mantiene el grupo en habla menos estructurada.`]
+ ];
+ return acts.map(a=>`<div class="activity-item"><h4>${a[0]}</h4><p>${a[1]}</p><p class="meta">${a[2]}</p><p class="criteria"><b>Avance:</b> ${a[3]}</p></div>`).join('');
+}
+function buildDiphones(){
+ const box=document.getElementById('diphones'); if(!box)return; box.innerHTML='';
+ Object.keys(diphones).forEach(p=>{let b=document.createElement('button');b.className='chip'+(p===chosenDiphone?' sel':'');b.textContent=p;b.onclick=()=>pickDiphone(b,p);box.appendChild(b)});
+ detailDiphone();
+}
+function pickDiphone(btn,p){document.querySelectorAll('#diphones .chip').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');chosenDiphone=p;document.getElementById('curDiphone').textContent=p;detailDiphone()}
+function openDiphone(p){chosenDiphone=p;document.querySelectorAll('#diphones .chip').forEach(b=>b.classList.toggle('sel',b.textContent===p));const cur=document.getElementById('curDiphone');if(cur)cur.textContent=p;detailDiphone();const target=document.getElementById('difonosBanco');if(target)target.scrollIntoView({behavior:'smooth',block:'start'});}
+function detailDiphone(){
+ const box=document.getElementById('diphoneDetail');if(!box)return;const d=diphones[chosenDiphone];
+ box.innerHTML=`<span class="badge">${d.tipo}</span><h2>Banco de actividades · ${chosenDiphone}</h2><p><b>Grafema(s) de referencia:</b> ${d.graf}</p><div class="activity-item">${diphoneWords(d)}</div>${d.note?`<div class="notice"><b>Nota:</b> ${d.note}</div>`:''}<div class="route"><div class="step">👂<br>Escuchar</div><div class="step">🔍<br>Discriminar</div><div class="step">👄<br>Facilitar</div><div class="step">🗣️<br>Producir</div><div class="step">💬<br>Usar</div><div class="step">🌎<br>Generalizar</div></div><div class="activity-bank">${diphoneActivities(chosenDiphone,d)}</div><div class="actions" style="margin-top:14px"><button class="primary no-print" onclick="sendDiphone()">Agregar objetivo a mi sesión</button><button class="secondary no-print" onclick="window.print()">Imprimir actividades</button></div>`;
+}
+function sendDiphone(){document.getElementById('area').value='Fonético-Fonológico';document.getElementById('goal').value='Producir y generalizar el dífono consonántico '+chosenDiphone+' en palabras, frases y contextos funcionales.';show('sesion')}
+buildDiphones();
+</script></body></html>
